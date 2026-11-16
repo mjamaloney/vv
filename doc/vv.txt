@@ -1,0 +1,61 @@
+*vv.txt*  Jujutsu workflows from within Vim
+
+==============================================================================
+COMMANDS                                                         *vv-commands*
+
+:VV [revset]                                                         *:VV*
+:VVLog [revset]                                                   *:VVLog*
+        Open the log view for the jj repo containing the current file.
+        With [revset], show only those revisions (passed to `jj log -r`).
+        Re-running it focuses the existing log window.
+
+==============================================================================
+LOG VIEW                                                             *vv-log*
+
+The log is the hub: every key acts on the revision under the cursor.
+Press g? for a summary.
+
+  <CR>    show the revision's diff in the detail window and focus it
+  p       preview the diff, keeping focus in the log
+  e       edit the description (|vv-describe|)
+  m       mark the revision to move
+  M       mark the revision and its descendants to move
+  a b o   move the marked revision after / before / onto this one
+  s       squash into parent             (jj squash -r)
+  n       new change on top of this one  (jj new)
+  E       edit this revision             (jj edit)
+  X       abandon, after confirmation    (jj abandon)
+  u       undo the last jj operation     (jj undo)
+  R       refresh
+  <C-n>   next revision
+  <C-p>   previous revision
+  q       close
+
+After every change the log refreshes and the cursor stays on the same change.
+
+==============================================================================
+DESCRIBE                                                        *vv-describe*
+
+`e` opens the description in a split. |:w| applies it with `jj describe`.
+Lines starting with "JJ:" are dropped. |:wq| saves and closes.
+
+==============================================================================
+DIFF                                                                *vv-diff*
+
+The diff is `jj show --git`, displayed in one reused window.
+  ]f [f   next / previous file
+  q       close
+
+==============================================================================
+OPTIONS                                                          *vv-options*
+
+g:vv_log_split          command used to open the log  (default "topleft split")
+g:vv_detail_split       command used to open the diff (default "botright vnew")
+g:vv_describe_split     command used to open describe (default "botright new")
+g:vv_no_mappings        set to true to skip the default log keymaps
+
+Highlight groups (override with |:highlight|): VVChangePrefix, VVChangeRest,
+VVAuthor, VVTime, VVRefs, VVFlags, VVCommitPrefix, VVCommitRest, VVMark,
+VVNodeWorkingCopy, VVNodeImmutable, VVNodeConflict, VVNoDescription.
+
+ vim:tw=78:ft=help:norl:
